@@ -5,8 +5,9 @@ import json
 pygame.init()
 
 # Set up the display
-width, height = 640, 720
-screen = pygame.display.set_mode((width, height))
+info = pygame.display.Info()
+width, height = info.current_w, info.current_h
+screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
 pygame.display.set_caption("Grid")
 
 # Colors
@@ -18,9 +19,9 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 
 # Grid settings
-block_size = 5
 grid_width = 128
 grid_height = 128
+block_size = min(width // grid_width, (height - 80) // grid_height)
 
 # Axis settings
 start_x = 0
@@ -158,9 +159,9 @@ while running:
                 if event.key == pygame.K_RIGHT:
                     start_x += 1
                 if event.key == pygame.K_UP:
-                    start_y -= 1
-                if event.key == pygame.K_DOWN:
                     start_y += 1
+                if event.key == pygame.K_DOWN:
+                    start_y -= 1
             if event.key == pygame.K_s:
                 save_grid()
             if event.key == pygame.K_l:
