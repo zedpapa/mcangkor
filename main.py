@@ -5,9 +5,8 @@ import json
 pygame.init()
 
 # Set up the display
-info = pygame.display.Info()
-width, height = info.current_w, info.current_h
-screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
+width, height = 800, 600
+screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
 pygame.display.set_caption("Grid")
 
 # Colors
@@ -111,6 +110,12 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.VIDEORESIZE:
+            width, height = event.w, event.h
+            screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
+            block_size = min(width // grid_width, (height - 80) // grid_height)
+            input_x_rect.topleft = (width - 220, height - 35)
+            input_y_rect.topleft = (width - 110, height - 35)
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             if input_x_rect.collidepoint(mouse_x, mouse_y):
